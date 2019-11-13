@@ -21,25 +21,8 @@ public class DatabaseMovieSearchService implements MovieSearchService {
 		//TODO: Step 3 => Please make all test in DatabaseMovieSearchServiceIntegrationTest run pass.
 		// This database search method must use only MovieRepository.findByNameContains(String), you also have to implement
 		// MovieDataSynchronizer.forceSync() to load all movie data, using MovieDataService, into MovieRepository.
-		// Do not change @Component annotation on this class
+		// Do not change @Component annotation on this class;
 
-		String splitRegex = "\\s+";
-
-		if(queryText.split(splitRegex).length > 1) return new ArrayList<>();
-
-		ArrayList<Movie> out = new ArrayList<>();
-
-		for(Movie movie : movieRepository.findByNameContains(queryText)){
-
-			String[] words = movie.getName().split(splitRegex);
-
-			for(String word : words) {
-				if(word.toLowerCase().equals(queryText.toLowerCase())) {
-					out.add(movie);
-				}
-			}
-		}
-
-		return out;
+		return movieRepository.findByNameContains(queryText);
 	}
 }
