@@ -23,12 +23,16 @@ public class SimpleMovieSearchService implements MovieSearchService {
 		// All test in SimpleMovieSearchServiceIntegrationTest must pass.
 		// Please do not change @Component annotation on this class
 
+		String splitRegex = "\\s+";
+
 		List<Movie> out = new ArrayList<Movie>();
+
+		if (queryText.split(splitRegex).length > 1) return new ArrayList<>();
 
 		for (MovieData movieData : movieDataService.fetchAll()) {
 
 			String movieName = movieData.getTitle();
-			String[] words = movieName.split("(\\p{Punct}|\\p{Space})+");
+			String[] words = movieName.split(splitRegex);
 
 			for (String word : words) {
 

@@ -23,8 +23,23 @@ public class DatabaseMovieSearchService implements MovieSearchService {
 		// MovieDataSynchronizer.forceSync() to load all movie data, using MovieDataService, into MovieRepository.
 		// Do not change @Component annotation on this class
 
+		String splitRegex = "\\s+";
 
+		if(queryText.split(splitRegex).length > 1) return new ArrayList<>();
 
-		return movieRepository.findByNameContains(queryText);
+		ArrayList<Movie> out = new ArrayList<>();
+
+		for(Movie movie : movieRepository.findByNameContains(queryText)){
+
+			String[] words = movie.getName().split(splitRegex);
+
+			for(String word : words) {
+				if(word.toLowerCase().equals(queryText.toLowerCase())) {
+					out.add(movie);
+				}
+			}
+		}
+
+		return out;
 	}
 }
